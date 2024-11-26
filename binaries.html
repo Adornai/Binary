@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Reward System</title>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+/* Global Reset and Variables */
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #45a049;
+    --accent-color: #FFA500;
+    --accent-color-4: #3b82f6;
+    --accent-color-3: #8b5cf6;
+    --text-color: #333;
+    --background-color: rgba(170, 115, 52, 0.068);
+    --card-background: #ffffff;
+    --sidebar-background: rgb(31, 28, 28);
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color var(--transition-speed) ease;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.title { 
+                font-size: 24px; 
+                font-weight: bold; 
+            }
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background-color: var(--sidebar-background);
+    color: white;
+    padding: 20px;
+    position: fixed;
+    height: 100vh;
+    transition: transform var(--transition-speed) ease-in-out;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.hidden {
+    transform: translateX(-240px);
+}
+
+/* Navigation Items */
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform 0.2s;
+    border-radius: 5px;
+}
+
+.nav-item:hover {
+    background: linear-gradient(#3b82f6, #8b5cf6);
+    transform: translateX(5px);
+}
+
+.nav-link {
+                 color: white; 
+                 text-decoration: none; 
+                 display: block; 
+                 padding: 10px 0; 
+                }
+
+.nav-item i {
+    margin-right: 10px;
+    transition: transform var(--transition-speed);
+}
+
+.nav-item:hover i {
+    transform: rotate(20deg);
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 260px;
+    padding: 20px;
+    transition: margin-left var(--transition-speed) ease-in-out;
+}
+
+.main-content.full-width {
+    margin-left: 0;
+} 
+
+
+/* Cards */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.menu-toggle, .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            z-index: 1001;
+            transition: transform var(--transition-speed);
+        }
+
+
+
+p {
+            font-family: 'arial', sans-serif;
+            font-weight: none;   
+            
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .main-content.full-width {
+            margin-left: 0;}
+
+            .intext {
+    font-weight: bold;
+    color: black;
+}
+
+.intext:hover {
+    transform: scale(1.1);
+    transition: ease-out;
+}
+
+
+.card {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.card-header {
+    padding: 15px;
+    border-bottom: 1px solid #ff9409;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-title { 
+                font-size: 18px; 
+                font-weight: bold; 
+            }
+
+.status-dot {
+                 width: 10px; 
+                 height: 10px; 
+                 background-color: #4CAF50; 
+                 border-radius: 50%; 
+                } 
+
+                .card-content p { 
+                    font-size: 14px; 
+                    color: #4B5563; 
+                }
+
+                .dark-mode {
+            --text-color: #f0f0f0;
+            --background-color: #0f172a;
+            --card-background: #1e293b;
+            --sidebar-background: rgba(0, 0, 0, 0.95);
+                }
+
+/* Buttons */
+.connect-wallet, .home {
+    background: linear-gradient(#3b82f6, #8b5cf6);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 9999px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform var(--transition-speed), background-color var(--transition-speed);
+}
+
+.connect-wallet:hover, .home:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Responsive Search Bar */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    padding: 10px;
+    width: 300px;
+    border: 2px solid var(--accent-color-3);
+    border-radius: 50px;
+    font-size: 16px;
+    transition: outline var(--transition-speed);
+}
+
+.search-bar input:focus {
+    outline: 2px solid var(--accent-color-4);
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--accent-color-3);
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: background-color var(--transition-speed);
+}
+
+.search-bar button:hover {
+    background-color: var(--accent-color-4);
+}
+
+a {
+            text-decoration: none;
+            text-decoration-color: none;
+            color: #000000;
+        }
+
+        .Dfinity {
+            color: #0f172a;
+            font-weight: bold;
+        }
+
+        .menu-toggle, .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            z-index: 1001;
+            transition: transform var(--transition-speed);
+        }
+
+        .menu-toggle {
+            right: 20px;
+        }
+
+        .theme-toggle {
+            right: 60px;
+        }
+
+        .menu-toggle:hover, .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        
+        
+
+        
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-240px);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+.logo img{
+            margin-bottom: 40px;
+            animation: pulse 2s infinite;
+            border-radius: 70px;
+            border: 4px  #fffefe;
+            padding-left: 4px;
+        }
+            
+            
+            
+            .nav ul { 
+                list-style-type: none; 
+            } 
+            
+            .nav-link {
+                 color: white; 
+                 text-decoration: none; 
+                 display: block; 
+                 padding: 10px 0; 
+                } 
+
+                .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform 0.2s;
+            border-radius: 5px;
+            color: white;
+        }
+
+            .nav-item:hover {
+            background: linear-gradient(#3b82f6, #8b5cf6);
+            transform: translateX(5px);
+        }
+
+        .nav-item i {
+            margin-right: 10px;
+            transition: transform var(--transition-speed);
+        }
+
+        .nav-item:hover i {
+            transform: rotate(20deg);
+        }
+                 
+            .profile {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            transition: transform var(--transition-speed); 
+            } 
+
+            .profile:hover {
+            transform: translateY(-5px);
+        }
+            
+            .profile-img { 
+                width: 40px; 
+                height: 40px; 
+                border-radius: 50%; 
+                margin-right: 10px;
+                transition: transform var(--transition-speed); 
+            } 
+            
+            .profile-text {
+                font-size: 14px; 
+            } 
+
+        
+
+       
+
+@media (max-width: 480px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-bar input {
+        width: 100%;
+    }
+}
+
+
+ 
+    </style>
+</head>
+<body>
+    <div class="circle-overlay"></div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="Free-Logo-Maker-Get-Custom-Logo-Designs-in-Minutes-Looka-11-18-2024_08_43_PM.png" alt="Binary Logo" height="50px" weight="5px">
+            </div>
+            <nav>
+                <a href="profile.html"><div class="nav-item"><img src="boy.png" width="30px" height="30px"><i></i> Profile</div></a>
+                <a href="binaries.html"><div class="nav-item"><img src="search.png" width="30px" height="30px"><i class="fas fa-search"></i>Binaries</div></a>
+                <a href="rewards.html"><div class="nav-item"><img src="trophy.png" alt=""  width="30px" height="30px"><i class="fas fa-award"></i>Rewards</div></a>
+                <a href="others.html"><div class="nav-item"><img src="menu.png" width="30px" height="30px"><i></i>Others</div></a>
+            </nav>
+            <div class="profile">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <span>view profile</span>
+            </div>
+        </aside>
+        <main class="main-content">
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+            <header class="header">
+                <a href="index.html"><button class="home">Home</button></a>
+                <button class="connect-wallet">Connect Wallet</button>
+                <h1>Binaries</h1><a href="https://internetcomputer.org/" class="Dfinity"><p><img src="logo-notext.svg" alt="">Dfinity</p></a>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search..." id="search-input">
+                    <button id="search-button">Search</button>
+                </div>
+            </header>
+            <div class="card-grid">
+                <div class="card-grid">
+    <!-- Card 1 -->
+    <a href="
+    C:BINARY\binaries\comunity engagement.html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Community Engagement</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Contribute educational content to promote the ICP ecosystem and earn rewards based on engagement metrics.</p>
+        </div>
+    </div>
+</a>
+
+    <!-- Card 2 -->
+    <a href="comunity engagement - Copy (2).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Build and Deploy</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Create innovative dApps on the ICP blockchain to earn rewards based on usage and popularity.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 3 -->
+    <a href="comunity engagement - Copy (3).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Governance Participation</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Vote on proposals and participate in discussions to shape the future of the network.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 4 -->
+    <a href="comunity engagement - Copy (4).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Staking Rewards</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Stake your tokens to help secure the network and earn passive income.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 5 -->
+    <a href="comunity engagement - Copy (5).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Developer Grants</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Apply for grants to fund your blockchain-based projects and innovations.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 6 -->
+    <a href="comunity engagement - Copy (6).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Education Programs</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Host workshops and seminars to educate others about blockchain technology and ICP rewards.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 7 -->
+    <a href="comunity engagement - Copy (7).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Token Airdrops</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Earn free tokens through participation in community campaigns and events.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 8 -->
+    <a href="comunity engagement - Copy (8).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Bug Bounties</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Help improve the ecosystem by identifying and reporting bugs to earn rewards.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 9 -->
+    <a href="comunity engagement - Copy (9).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Content Creation</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Publish tutorials, blogs, or videos to spread awareness about ICP and earn rewards.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 10 -->
+    <a href="comunity engagement - Copy (10).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Hackathon Participation</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Join hackathons to showcase your skills and win exciting prizes and rewards.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 11 -->
+    <a href="comunity engagement - Copy (11).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Social Media Engagement</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Share and promote ICP content on social media platforms to earn rewards.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 12 -->
+    <a href="comunity engagement - Copy (12).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Community Moderation</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Help moderate community forums and chat groups to maintain a healthy ecosystem.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 13 -->
+    <a href="comunity engagement - Copy (13).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">NFT Creation</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Design and launch NFTs on the ICP platform to gain popularity and rewards.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 14 -->
+    <a href="comunity engagement - Copy (14).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Partnership Programs</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Collaborate with other organizations to promote ICP and gain mutual benefits.</p>
+        </div>
+    </div></a>
+
+    <!-- Card 15 -->
+    <a href="comunity engagement - Copy (15).html" class="intext"><div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Community Challenges</h2>
+            <div class="status-dot"></div>
+        </div>
+        <div class="card-content">
+            <p>Participate in challenges hosted by the community to win exciting rewards.</p>
+        </div>
+    </div>
+</div></a>
+
+            </div>
+        </main>
+    </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const themeToggle = document.querySelector('.theme-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const walletButton = document.querySelector('.connect-wallet');
+            const body = document.body;
+            const intext = document.querySelector('.intext');
+
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+                mainContent.classList.toggle('full-width');
+            });
+
+            themeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-mode');
+                this.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            });
+
+            let isConnected = false;
+
+// Reference to the button
+
+
+// Function to simulate wallet connection/disconnection
+function toggleWalletConnection() {
+    if (isConnected) {
+        // Simulate disconnecting
+        walletButton.textContent = 'Disconnecting...';
+        setTimeout(() => {
+            isConnected = false;
+            walletButton.textContent = 'Connect Wallet';
+        }, 1000); // Simulate a delay for disconnecting
+    } else {
+        // Simulate connecting
+        walletButton.textContent = 'Connecting...';
+        setTimeout(() => {
+            isConnected = true;
+            walletButton.textContent = 'Connected';
+        }, 1000); // Simulate a delay for connecting
+    }
+}
+
+// Add event listener to the button
+walletButton.addEventListener('click', toggleWalletConnection);
+            const statItems = document.querySelectorAll('.stat-item');
+            statItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = body.classList.contains('dark-mode') ? '#555' : '#f0f0f0';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = body.classList.contains('dark-mode') ? '#444' : '#ffffff';
+                });
+            });
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.style.backgroundColor = 'transparent');
+                    this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                });
+            });
+
+            const engagementBoxes = document.querySelectorAll('.engagement-box');
+            engagementBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    this.style.borderStyle = 'solid';
+                    this.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+                });
+            });
+        });
+        
+    document.getElementById('search-button').addEventListener('click', function() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const cards = document.querySelectorAll('.card'); // Adjust selector to your cards
+        
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            if (text.includes(query)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+
+     
+
+    
+            
+    </script>
+</body>
+</html>     

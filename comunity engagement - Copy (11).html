@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Reward System</title>
+    <style>
+       @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+/* Global Reset and Variables */
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #45a049;
+    --accent-color: #FFA500;
+    --accent-color-4: #3b82f6;
+    --accent-color-3: #8b5cf6;
+    --text-color: #333;
+    --background-color: rgba(170, 115, 52, 0.068);
+    --card-background: #ffffff;
+    --sidebar-background: rgb(31, 28, 28);
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color var(--transition-speed) ease;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.title { 
+                font-size: 24px; 
+                font-weight: bold; 
+            }
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background-color: var(--sidebar-background);
+    color: white;
+    padding: 20px;
+    position: fixed;
+    height: 100vh;
+    transition: transform var(--transition-speed) ease-in-out;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.hidden {
+    transform: translateX(-240px);
+}
+
+/* Navigation Items */
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform 0.2s;
+    border-radius: 5px;
+}
+
+.nav-item:hover {
+    background: linear-gradient(#3b82f6, #8b5cf6);
+    transform: translateX(5px);
+}
+
+.nav-link {
+                 color: white; 
+                 text-decoration: none; 
+                 display: block; 
+                 padding: 10px 0; 
+                }
+
+.nav-item i {
+    margin-right: 10px;
+    transition: transform var(--transition-speed);
+}
+
+.nav-item:hover i {
+    transform: rotate(20deg);
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 260px;
+    padding: 20px;
+    transition: margin-left var(--transition-speed) ease-in-out;
+}
+
+.main-content.full-width {
+    margin-left: 0;
+} 
+
+
+/* Cards */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.menu-toggle, .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            z-index: 1001;
+            transition: transform var(--transition-speed);
+        }
+
+
+
+p {
+            font-family: 'arial', sans-serif;
+            font-weight: none;   
+            
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .main-content.full-width {
+            margin-left: 0;}
+
+            .intext {
+    font-weight: bold;
+    color: black;
+}
+
+.intext:hover {
+    transform: scale(1.1);
+    transition: ease-out;
+}
+
+
+.card {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.card-header {
+    padding: 15px;
+    border-bottom: 1px solid #ff9409;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-title { 
+                font-size: 18px; 
+                font-weight: bold; 
+            }
+
+.status-dot {
+                 width: 10px; 
+                 height: 10px; 
+                 background-color: #4CAF50; 
+                 border-radius: 50%; 
+                } 
+
+                .card-content p { 
+                    font-size: 14px; 
+                    color: #4B5563; 
+                }
+
+                .dark-mode {
+            --text-color: #f0f0f0;
+            --background-color: #0f172a;
+            --card-background: #1e293b;
+            --sidebar-background: rgba(0, 0, 0, 0.95);
+                }
+
+/* Buttons */
+.connect-wallet, .home {
+    background: linear-gradient(#3b82f6, #8b5cf6);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 9999px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform var(--transition-speed), background-color var(--transition-speed);
+}
+
+.connect-wallet:hover, .home:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Responsive Search Bar */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    padding: 10px;
+    width: 300px;
+    border: 2px solid var(--accent-color-3);
+    border-radius: 50px;
+    font-size: 16px;
+    transition: outline var(--transition-speed);
+}
+
+.search-bar input:focus {
+    outline: 2px solid var(--accent-color-4);
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--accent-color-3);
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: background-color var(--transition-speed);
+}
+
+.search-bar button:hover {
+    background-color: var(--accent-color-4);
+}
+
+a {
+            text-decoration: none;
+            text-decoration-color: none;
+            color: #000000;
+        }
+
+        .Dfinity {
+            color: #0f172a;
+            font-weight: bold;
+        }
+
+        .menu-toggle, .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            z-index: 1001;
+            transition: transform var(--transition-speed);
+        }
+
+        .menu-toggle {
+            right: 20px;
+        }
+
+        .theme-toggle {
+            right: 60px;
+        }
+
+        .menu-toggle:hover, .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        
+        
+
+        
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-240px);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+.logo img{
+            margin-bottom: 40px;
+            animation: pulse 2s infinite;
+            border-radius: 70px;
+            border: 4px  #fffefe;
+            padding-left: 4px;
+        }
+            
+            
+            
+            .nav ul { 
+                list-style-type: none; 
+            } 
+            
+            .nav-link {
+                 color: white; 
+                 text-decoration: none; 
+                 display: block; 
+                 padding: 10px 0; 
+                } 
+
+                .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform 0.2s;
+            border-radius: 5px;
+            color: white;
+        }
+
+            .nav-item:hover {
+            background: linear-gradient(#3b82f6, #8b5cf6);
+            transform: translateX(5px);
+        }
+
+        .nav-item i {
+            margin-right: 10px;
+            transition: transform var(--transition-speed);
+        }
+
+        .nav-item:hover i {
+            transform: rotate(20deg);
+        }
+                 
+            .profile {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            transition: transform var(--transition-speed); 
+            } 
+
+            .profile:hover {
+            transform: translateY(-5px);
+        }
+            
+            .profile-img { 
+                width: 40px; 
+                height: 40px; 
+                border-radius: 50%; 
+                margin-right: 10px;
+                transition: transform var(--transition-speed); 
+            } 
+            
+            .profile-text {
+                font-size: 14px; 
+            } 
+
+        
+
+       
+
+@media (max-width: 480px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-bar input {
+        width: 100%;
+    }
+}
+
+
+ 
+
+
+
+.intext {
+    font-weight: bold;
+    color: black;
+}
+
+.intext:hover {
+    transform: scale(1.1);
+    transition: ease-out;
+}
+
+.trophy {
+    
+    opacity: 5%;
+    justify-content: center;
+    display: flex;
+    position: absolute;
+    right: 30%;
+}
+
+.reward-page {
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.5s ease-out;
+}
+
+.content-card {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.content-card h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.content-card p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.toggle-info-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-info-btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+}
+
+.engagement-info {
+    display: none;
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.engagement-info h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.engagement-info h3 {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.engagement-info ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.engagement-info ul li {
+    margin-bottom: 10px;
+}
+
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="Free-Logo-Maker-Get-Custom-Logo-Designs-in-Minutes-Looka-11-18-2024_08_43_PM.png" alt="Binary Logo" height="50px" weight="5px">
+            </div>
+            <nav>
+                <a href="profile.html"><div class="nav-item"><img src="boy.png" width="30px" height="30px"><i></i> Profile</div></a>
+                <a href="binaries.html"><div class="nav-item"><img src="search.png" width="30px" height="30px"><i class="fas fa-search"></i>Binaries</div></a>
+                <a href="rewards.html"><div class="nav-item"><img src="trophy.png" alt=""  width="30px" height="30px"><i class="fas fa-award"></i>Rewards</div></a>
+                <a href="others.html"><div class="nav-item"><img src="menu.png" width="30px" height="30px"><i></i>Others</div></a>
+            </nav>
+            <div class="profile">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <span>view profile</span>
+            </div>
+        </aside>
+        <main class="main-content">
+            <button class="connect-wallet">Connect Wallet</button>
+
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+            <header class="header">
+               
+                
+            </header>
+            <div class="card-grid">
+                <div class="card-grid">
+    <!-- Card 1 -->
+    
+    <div class="reward-page">
+        <!-- Community Engagement Card -->
+        <div class="content-card" id="engagement-card">
+            <h1>🎉 Social Media Engagement</h1>
+            <p>Share and promote icp content on social media platforms to earn rewards!</p>
+            <button class="toggle-info-btn">How to Participate</button>
+            
+            <!-- Hidden info section -->
+            <div class="engagement-info" id="engagement-info">
+                <h2>How to Participate</h2>
+                <p>Engage in discussions, attend events, contribute content, or share feedback!</p>
+                <p>Each activity you complete contributes to your rewards balance.</p>
+                
+                <h3>How to Earn ICP Tokens</h3>
+                <p>For every meaningful contribution, you can earn ICP tokens. Here's how:</p>
+                <ul>
+                    <li>Contribute content: Earn 10 ICP tokens per approved post.</li>
+                    <li>Participate in community events: Earn 20 ICP tokens per event.</li>
+                    <li>Share feedback: Earn 5 ICP tokens for every 5 valid feedback submissions.</li>
+                </ul>
+                <p>Total ICP tokens earned will be added to your wallet.</p>
+            </div>
+        </div>
+    </div>
+    
+   
+
+    <!-- Card 2 -->
+    
+            </div>
+        </main>
+    </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const themeToggle = document.querySelector('.theme-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const walletButton = document.querySelector('.connect-wallet');
+            const body = document.body;
+
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+                mainContent.classList.toggle('full-width');
+            });
+
+            themeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-mode');
+                this.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            });
+
+            let isConnected = false;
+
+// Reference to the button
+
+
+// Function to simulate wallet connection/disconnection
+function toggleWalletConnection() {
+    if (isConnected) {
+        // Simulate disconnecting
+        walletButton.textContent = 'Disconnecting...';
+        setTimeout(() => {
+            isConnected = false;
+            walletButton.textContent = 'Connect Wallet';
+        }, 1000); // Simulate a delay for disconnecting
+    } else {
+        // Simulate connecting
+        walletButton.textContent = 'Connecting...';
+        setTimeout(() => {
+            isConnected = true;
+            walletButton.textContent = 'Connected';
+        }, 1000); // Simulate a delay for connecting
+    }
+}
+
+// Add event listener to the button
+walletButton.addEventListener('click', toggleWalletConnection);
+            const statItems = document.querySelectorAll('.stat-item');
+            statItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = body.classList.contains('dark-mode') ? '#555' : '#f0f0f0';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = body.classList.contains('dark-mode') ? '#444' : '#ffffff';
+                });
+            });
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.style.backgroundColor = 'transparent');
+                    this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                });
+            });
+
+            const engagementBoxes = document.querySelectorAll('.engagement-box');
+            engagementBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    this.style.borderStyle = 'solid';
+                    this.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+                });
+            });
+        });
+
+        
+            
+        
+    document.getElementById('search-button').addEventListener('click', function() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const cards = document.querySelectorAll('.card'); // Adjust selector to your cards
+        
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            if (text.includes(query)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+
+    document.querySelector('.toggle-info-btn').addEventListener('click', function() {
+    var infoSection = document.getElementById('engagement-info');
+    // Toggle visibility of the engagement info section
+    if (infoSection.style.display === "none" || infoSection.style.display === "") {
+        infoSection.style.display = "block";
+        this.textContent = "Hide Information"; // Change button text to "Hide"
+    } else {
+        infoSection.style.display = "none";
+        this.textContent = "How to Participate"; // Reset button text
+    }
+});
+
+
+    </script>
+</body>
+</html>     

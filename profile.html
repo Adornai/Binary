@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Community Reward System</title>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #45a049;
+            --accent-color: #FFA500;
+            --accent-color-4: #3b82f6;
+            --accent-color-3: #8b5cf6;
+            --text-color: #333;
+            --background-color: rgba(170, 115, 52, 0.068);
+            --card-background: #ffffff;
+            --sidebar-background: rgb(31, 28, 28);
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color var(--transition-speed) ease;
+            animation: fadeIn 1s ease-out;
+            overflow: auto;
+        }
+
+        p {
+            font-family: 'arial', sans-serif;
+            font-weight: bold;   
+            
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            background-color: var(--sidebar-background);
+            color: white;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            transition: transform var(--transition-speed) ease-in-out;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-240px);
+        }
+
+        .logo img{
+            margin-bottom: 40px;
+            animation: pulse 2s infinite;
+            border-radius: 70px;
+            border: 4px  #fffefe;
+            padding-left: 4px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform 0.2s;
+            border-radius: 5px;
+        }
+
+        a {
+            color: #f0f0f0;
+        }
+
+        .nav-item:hover {
+            background: linear-gradient(#3b82f6, #8b5cf6);
+            transform: translateX(5px);
+        }
+
+        .nav-item i {
+            margin-right: 10px;
+            transition: transform var(--transition-speed);
+        }
+
+        .nav-item:hover i {
+            transform: rotate(20deg);
+        }
+
+        .profile {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            transition: transform var(--transition-speed);
+        }
+
+        .profile:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: transform var(--transition-speed);
+        }
+
+        .profile:hover img {
+            transform: rotate(360deg);
+        }
+
+        .main-content {
+            flex-grow: 0.85;
+            margin-left: 240px;
+            padding: 20px;
+            transition: margin-left var(--transition-speed) ease-in-out;
+        }
+
+        .main-content.full-width {
+            margin-left: 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .connect-wallet {
+            background: linear-gradient(#3b82f6, #8b5cf6);
+            
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform 0.2s;
+            border-radius: 9999px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .connect-wallet:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .user-card {
+            background-color: var(--sidebar-background);
+            color: white;
+            padding: 20px;
+            border-radius: 80px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-out 0.2s both;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 20px;
+            transition: transform var(--transition-speed);
+        }
+
+        .user-info:hover img {
+            transform: scale(1.1);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            animation: slideIn 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 0.3s; }
+        .stat-item:nth-child(2) { animation-delay: 0.4s; }
+        .stat-item:nth-child(3) { animation-delay: 0.5s; }
+        .stat-item:nth-child(4) { animation-delay: 0.6s; }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            transition: color var(--transition-speed);
+        }
+
+        .stat-item:hover .stat-value {
+            color: var(--accent-color);
+        }
+
+        .engagement {
+            display: flex;
+            justify-content: space-between;
+            animation: slideIn 0.5s ease-out 0.7s both;
+        }
+
+        .engagement-boxes {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 48%;
+        }
+
+        .engagement-box {
+            aspect-ratio: 1;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            transition: border-color var(--transition-speed), transform var(--transition-speed);
+            cursor: pointer;
+        }
+
+        .engagement-box:hover {
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .pie-chart {
+    width: 48%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--primary-color) 0deg 306deg,
+        var(--secondary-color) 306deg 360deg
+    );
+    position: relative;
+    transition: transform var(--transition-speed), box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.3);
+    animation: rotate 20s linear infinite;
+    overflow: hidden;
+}
+
+/* Add depth to the pie chart */
+.pie-chart::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0) 70%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Adjust scale and add hover glow effect */
+.pie-chart:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.5);
+    animation-play-state: paused;
+}
+
+/* Center percentage text with better styling */
+.pie-chart::before {
+    content: "85%";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    font-weight: bold;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0.6)
+    );
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    padding: 15px 25px;
+    z-index: 2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.connect-wallet {
+    margin-right: 5%;
+}
+
+
+        .menu-toggle, .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            z-index: 1001;
+            transition: transform var(--transition-speed);
+        }
+
+        .menu-toggle {
+            right: 20px;
+        }
+
+        .theme-toggle {
+            right: 60px;
+        }
+
+        .menu-toggle:hover, .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        a {
+            text-decoration: none;
+            text-decoration-color: none;
+        }
+
+        .Dfinity {
+            color: #0f172a;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-240px);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle, .theme-toggle {
+                display: block;
+            }
+
+            .engagement {
+                flex-direction: column;
+            }
+
+            .engagement-boxes, .pie-chart {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        .dark-mode {
+            --text-color: #f0f0f0;
+            --background-color: #0f172a;
+            --card-background: #1e293b;
+            --sidebar-background: rgba(0, 0, 0, 0.95);
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="Free-Logo-Maker-Get-Custom-Logo-Designs-in-Minutes-Looka-11-18-2024_08_43_PM.png" alt="Binary Logo" height="50px" weight="5px">
+            </div>
+            <nav>
+                <a href="profile.html"><div class="nav-item"><img src="boy.png" width="30px" height="30px"><i></i> Profile</div></a>
+                <a href="binaries.html"><div class="nav-item"><img src="search.png" width="30px" height="30px"><i class="fas fa-search"></i>Binaries</div></a>
+                <a href="rewards.html"><div class="nav-item"><img src="trophy.png" alt=""  width="30px" height="30px"><i class="fas fa-award"></i>Rewards</div></a>
+                <a href="others.html"><div class="nav-item"><img src="menu.png" width="30px" height="30px"><i></i>Others</div></a>
+            </nav>
+            <a href="profile.html"><div class="profile">
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <div class="upload-container">
+                    <button id="uploadButton" class="upload-btn"><img src="https://via.placeholder.com/40" alt="User Avatar"></button>
+                    <input type="file" id="fileInput" style="display: none;" />
+                </div>
+                <span>view profile</span>
+            </div></a>
+        </aside>
+        <main class="main-content">
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+           <header class="header"> 
+                <h1>community reward system</h1><a href="https://internetcomputer.org/" class="Dfinity"><p><img src="logo-notext.svg" alt="">Dfinity</p></a>
+                <button class="connect-wallet">Connect Wallet</button>
+            </header>
+            <section class="user-card">
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/60" alt="Dubem-Adornai Avatar">
+                    <div>
+                        <h2>Username</h2>
+                        <p>0x.......wallet address</p>
+                    </div>
+                </div>
+            </section>
+            <section class="stats">
+                <div class="stat-item">
+                    <h3>Community Point</h3>
+                    <p class="stat-value">85%</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Binaries</h3>
+                    <p class="stat-value">20%</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Rewards</h3>
+                    <p class="stat-value">3%</p>
+                </div>
+                <div class="stat-item">
+                    <h3>ICP tokens</h3>
+                    <p class="stat-value">2%</p>
+                </div>
+            </section>
+            <section class="engagement">
+                <div class="engagement-boxes">
+                    <div class="engagement-box"><p>NFT Achievement</p></div>
+                    <div class="engagement-box"><p>NFT Achievement</p></div>
+                    <div class="engagement-box"><p>NFT Achievement</p></div>
+                    <div class="engagement-box"><p>NFT Achievement</p></div>
+                </div>
+                <div class="pie-chart"></div>
+            </section>
+        </main>
+    </div>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const themeToggle = document.querySelector('.theme-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const walletButton = document.querySelector('.connect-wallet');
+            const body = document.body;
+
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+                mainContent.classList.toggle('full-width');
+            });
+
+            themeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-mode');
+                this.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            });
+
+            let isConnected = false;
+
+// Reference to the button
+
+
+// Function to simulate wallet connection/disconnection
+function toggleWalletConnection() {
+    if (isConnected) {
+        // Simulate disconnecting
+        walletButton.textContent = 'Disconnecting...';
+        setTimeout(() => {
+            isConnected = false;
+            walletButton.textContent = 'Connect Wallet';
+        }, 1000); // Simulate a delay for disconnecting
+    } else {
+        // Simulate connecting
+        walletButton.textContent = 'Connecting...';
+        setTimeout(() => {
+            isConnected = true;
+            walletButton.textContent = 'Connected';
+        }, 1000); // Simulate a delay for connecting
+    }
+}
+
+// Add event listener to the button
+walletButton.addEventListener('click', toggleWalletConnection);
+            const statItems = document.querySelectorAll('.stat-item');
+            statItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = body.classList.contains('dark-mode') ? '#555' : '#f0f0f0';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = body.classList.contains('dark-mode') ? '#444' : '#ffffff';
+                });
+            });
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.style.backgroundColor = 'transparent');
+                    this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                });
+            });
+
+            const engagementBoxes = document.querySelectorAll('.engagement-box');
+            engagementBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    this.style.borderStyle = 'solid';
+                    this.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+                });
+            });
+        });
+
+        // Get references to the button and file input
+const uploadButton = document.getElementById('uploadButton');
+const fileInput = document.getElementById('fileInput');
+
+// Add click event listener to the button
+uploadButton.addEventListener('click', () => {
+    // Programmatically click the hidden file input
+    fileInput.click();
+});
+
+// Add change event listener to the file input to handle file selection
+fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0]; // Get the selected file
+    if (file) {
+        alert(`File selected: ${file.name}`);
+        // Perform any additional file handling logic here
+    }
+});
+
+    </script>
+</body>
+</html>
